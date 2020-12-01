@@ -1,0 +1,24 @@
+{% extends 'internal.html' %}
+{% block content %}
+<h1>{{ title }}</h1>
+{% if tasks %}
+    {% for task in tasks %}
+    <a href="task/{{ task.id }}">
+        <div class="tasks">Name:{{ task.name }} DueDate: {{ task.duedate }}<br/>
+            Status: {{ task.status }} [Time Spent: {{ task.minutes_spent }}]
+        </div>
+    </a>
+        <hr/>
+    {% endfor %}
+{% else %}
+    <strong>No Tasks available</strong>
+{% endif %}
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+{% endblock %}
