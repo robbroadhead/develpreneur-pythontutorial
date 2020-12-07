@@ -1,0 +1,14 @@
+{% extends 'internal.html' %}
+{% block content %}
+
+<h1>{{ title }}</h1>
+<h4>{{ msg }}</h4>
+<form method="post">
+    <table width="80%" bordercolor="red" borderwidth="1" align="center">
+        <tr><td width="30%">&nbsp;</td><td width="70%">&nbsp;</td></tr>
+    {{ form.as_table }}
+    </table>
+    <input type="submit" value="Save Record" name="submit">
+    {% csrf_token %}
+</form>
+{% endblock %}
