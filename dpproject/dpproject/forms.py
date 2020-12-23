@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 class TaskForm(forms.ModelForm):
     class Meta:
         model = models.Task
-        fields = ["name","duedate","completiondate","status","minutes_spent","owner","creationdate"]
+        fields = ["name","duedate","attachment","completiondate","status","minutes_spent","owner","creationdate"]
         widgets = {
             "name" : forms.TextInput(attrs={'size':50,'class' : 'textInput'}),
             "completiondate" : forms.SelectDateWidget(),

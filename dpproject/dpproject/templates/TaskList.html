@@ -1,14 +1,17 @@
 {% extends 'internal.html' %}
 {% block content %}
+<script>
+    function completeTask(id) {
+        alert("Task " + id + " is complete");
+    }
+</script>
 <h1>{{ title }}</h1>
 {% if tasks %}
     {% for task in tasks %}
-    <a href="task/{{ task.id }}">
-        <div class="tasks">Name:{{ task.name }} DueDate: {{ task.duedate }}<br/>
-            Status: {{ task.status }} [Time Spent: {{ task.minutes_spent }}]
+        <div class="tasks" id="task_{{ task.id }}">Name:{{ task.name }} DueDate: {{ task.duedate }}<br/>
+            Status: {{ task.status }} [Time Spent: {{ task.minutes_spent }}] <button onclick="goPage('task/{{ task.id }}')" class="btn-info">Edit</button>
+            <button onclick="completeTask({{ task.id }})" class="btn-info">Complete</button>
         </div>
-    </a>
-        <hr/>
     {% endfor %}
 {% else %}
     <strong>No Tasks available</strong>
