@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from . import forms
-from dpproject.models import Task
+from dpproject.models import Task,lkpStatus
 import mysql
 from mysql.connector import Error
 
@@ -20,6 +20,15 @@ def Looper(request,value,loop):
     for i in range(loop):
         print(value)
 
+    return HttpResponse("Success")
+
+def completeTask(request,id):
+    complete = lkpStatus.objects.get(pk=3)
+    print(complete)
+    task = Task.objects.get(pk=id)
+    task.status = complete
+    task.save()
+    print("Task " + str(id) + " is complete.")
     return HttpResponse("Success")
     
 def ShowPage(request):

@@ -31,6 +31,7 @@ urlpatterns = [
     path('web', views.ShowPage),
     path('task/<int:id>', views.EditTask),
     path('task', views.CreateTask),
+    path('complete/<int:id>', views.completeTask),
     path('tasks', views.ListTasks),
     path('web2', views.Examples),
     path('register/', views.userRegister),

@@ -35,4 +35,16 @@ def home():
 def about():
     return "Version 1.0"
 
+@app.route("/complete/id")
+def completeTask():
+    try:
+        query = "update dpproject_task set lkpStatus_id=3 where id = :id"
+        cursor.execute(query)
+        print("Task " + str(id) + " is complete.")
+    except Error as e:
+        return make_response(jsonify(e),500)    
+
+    return HttpResponse("Success")
+
+
 app.run()

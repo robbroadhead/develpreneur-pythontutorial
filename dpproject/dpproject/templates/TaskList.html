@@ -2,7 +2,13 @@
 {% block content %}
 <script>
     function completeTask(id) {
-        alert("Task " + id + " is complete");
+        var target = "/complete/" + id;
+        var xhttp = new XMLHttpRequest();
+        xhttp.open("GET",target,true);
+        xhttp.send();
+        var elem = document.getElementById("task_" + id);
+        elem.style.display = "none";
+        return;
     }
 </script>
 <h1>{{ title }}</h1>
