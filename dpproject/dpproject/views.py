@@ -4,6 +4,7 @@ from . import forms
 from dpproject.models import Task,lkpStatus
 import mysql
 from mysql.connector import Error
+from django.db.models import Q
 
 def AddPage(request,x,y):
     return HttpResponse(x + y);
@@ -79,8 +80,16 @@ def EditTask(request,id):
     return render(request,'TaskEdit.html',parms)
 
 def ListTasks(request):
-    tasks = Task.objects.all()
+    tasks = Task.objects.all().order_by('duedate','name')
     title = "All Tasks"
+    parms = {"title": title, "tasks": tasks}
+    return render(request,'TaskList.html',parms)
+
+def ActiveTasks(request):
+    cancel = lkpStatus.objects.get(pk=5)
+    complete = lkpStatus.objects.get(pk=3)
+    tasks = Task.objects.filter(~Q(status=complete)).order_by('duedate','name')
+    title = "Active Tasks"
     parms = {"title": title, "tasks": tasks}
     return render(request,'TaskList.html',parms)
 

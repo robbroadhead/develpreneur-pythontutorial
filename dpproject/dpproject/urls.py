@@ -33,6 +33,7 @@ urlpatterns = [
     path('task', views.CreateTask),
     path('complete/<int:id>', views.completeTask),
     path('tasks', views.ListTasks),
+    path('todo', views.ActiveTasks),
     path('web2', views.Examples),
     path('register/', views.userRegister),
     path('dbtest', views.showname),
