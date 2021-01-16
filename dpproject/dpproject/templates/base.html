@@ -19,16 +19,16 @@
 </script>
 
 <!-- header stuff -->
-<table><tr>
-    <td onclick="goPage('/')">Home</td><td>&nbsp;</td>
-    <td onclick="goPage('/about')">About</td><td>&nbsp;</td>
-    <td onclick="goPage('#')">Login</td>
-</tr></table>
+<div class="row menu-bar">
+    <div class="col-md-1 menu-item" onclick="goPage('/')">Home</div>
+    <div class="col-md-1 menu-item" onclick="goPage('/about')">About</div>
+    <div class="col-md-1 menu-item" onclick="goPage('#')">Logout</div>
+</div>
 <!-- End of header stuff -->
 
 {% block content %}
 {% endblock %}
 
 <!-- footer stuff -->
-<div class="row standard-footer">Copyright Develpreneur 2020 All Rights Reserved</div>
+<div class="standard-footer">Copyright Develpreneur 2020-2021 All Rights Reserved</div>
 <!-- End of footer stuff -->

@@ -62,19 +62,38 @@ def CreateTask(request):
     parms = {"form": form, "title": title, "msg": msg}
     return render(request,'TaskEdit.html',parms)
 
+def deleteTasks(request):
+    Task.objects.all().delete()
+    tasks = Task.objects.all()
+    title = "All Tasks"
+    parms = {"title": title, "tasks": tasks}
+    return render(request,'TaskList.html',parms)
+
+def massUpdate(request):
+    Task.objects.filter(minutes_spent == 0 ).update(minutes_spent = 2)
+    tasks = Task.objects.all()
+    title = "All Tasks"
+    parms = {"title": title, "tasks": tasks}
+    return render(request,'TaskList.html',parms)
+
 def EditTask(request,id):
     data = Task.objects.get(pk=id)
     data.owner = request.user
     form = forms.TaskForm(instance=data)
     msg = "Please update data for the record"
     if request.method == "POST":
-        form = forms.TaskForm(request.POST, instance=data)
-        if form.is_valid():
-            form.save()
-            msg = "Record Saved"
+        if request.POST['delete']:
+            data = Task.objects.get(pk=id).delete()
+            msg = "Record Deleted"
             return redirect('/tasks')
-        else:
-            msg = "Invalid Record"
+        else: 
+            form = forms.TaskForm(request.POST, instance=data)
+            if form.is_valid():
+                form.save()
+                msg = "Record Saved"
+                return redirect('/tasks')
+            else:
+                msg = "Invalid Record"
     title = "Edit Task"
     parms = {"form": form, "title": title, "msg": msg}
     return render(request,'TaskEdit.html',parms)
@@ -86,8 +105,8 @@ def ListTasks(request):
     return render(request,'TaskList.html',parms)
 
 def ActiveTasks(request):
-    cancel = lkpStatus.objects.get(pk=5)
-    complete = lkpStatus.objects.get(pk=3)
+    cancel = lkpStatus.objects.get(shortname='')
+    complete = lkpStatus.objects.get(shortname='')
     tasks = Task.objects.filter(~Q(status=complete)).order_by('duedate','name')
     title = "Active Tasks"
     parms = {"title": title, "tasks": tasks}
