@@ -69,6 +69,23 @@ def deleteTasks(request):
     parms = {"title": title, "tasks": tasks}
     return render(request,'TaskList.html',parms)
 
+def test(request):
+    # status = lkpStatus.objects.get(shortname="NEW")
+    # Task.objects.create(name="Task 3",status=status, owner=request.user)
+    # Task.objects.create(name="Task 4",status=status, owner=request.user)
+    # Task.objects.create(name="Task 5",status=status, owner=request.user)
+    # Task.objects.create(name="Task 6",status=status, owner=request.user)
+    # Task.objects.create(name="Task 7",status=status, owner=request.user)
+
+    # Display results
+    tasks = Task.objects.exclude(name__contains='7')
+    # tasks = Task.objects.filter(name__contains='ask')[:5]
+    # tasks = Task.objects.exclude(name__contains='Task')
+    # tasks = Task.objects.raw('select * from dpproject_task group by name')
+    title = "All Tasks"
+    parms = {"title": title, "tasks": tasks}
+    return render(request,'TaskList.html',parms)
+
 def massUpdate(request):
     Task.objects.filter(minutes_spent == 0 ).update(minutes_spent = 2)
     tasks = Task.objects.all()
