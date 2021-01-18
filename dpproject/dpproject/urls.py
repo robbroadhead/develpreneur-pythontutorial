@@ -30,6 +30,8 @@ urlpatterns = [
     path('loop/<str:value>/<int:loop>', views.Looper),
     path('web', views.ShowPage),
     path('task/<int:id>', views.EditTask),
+    path('roadmap/<int:id>', views.EditRoadmap),
+    path('roadmap', views.CreateRoadmap),
     path('task', views.CreateTask),
     path('complete/<int:id>', views.completeTask),
     path('tasks', views.ListTasks),

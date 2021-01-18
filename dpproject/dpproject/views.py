@@ -99,7 +99,7 @@ def EditTask(request,id):
     form = forms.TaskForm(instance=data)
     msg = "Please update data for the record"
     if request.method == "POST":
-        if request.POST['delete']:
+        if 'delete' in request.POST:
             data = Task.objects.get(pk=id).delete()
             msg = "Record Deleted"
             return redirect('/tasks')
@@ -126,6 +126,47 @@ def ListRoadmaps(request):
     title = "My Roadmaps"
     parms = {"title": title, "items": items}
     return render(request,'RoadmapList.html',parms)
+
+def CreateRoadmap(request):
+    data = Roadmap()
+    data.owner = request.user
+    form = forms.RoadmapForm(instance=data)
+    msg = "Create a New Record"
+    title = "Create Roadmap"
+    if request.method == "POST":
+        form = forms.RoadmapForm(request.POST, instance=data)
+        if form.is_valid():
+            form.save()
+            msg = "Record Saved"
+        else:
+            msg = "Invalid Record"
+        return redirect("/roadmaps")
+
+    parms = {"form": form, "title": title, "msg": msg}
+    return render(request,'RoadmapEdit.html',parms)
+
+def EditRoadmap(request,id):
+    data = Roadmap.objects.get(pk=id)
+    data.owner = request.user
+    form = forms.RoadmapForm(instance=data)
+    msg = "Please update data for the record"
+    print(request.POST)
+    if request.method == "POST":
+        if 'delete' in request.POST:
+            data = Roadmap.objects.get(pk=id).delete()
+            msg = "Record Deleted"
+            return redirect('/roadmaps')
+        else: 
+            form = forms.RoadmapForm(request.POST, instance=data)
+            if form.is_valid():
+                form.save()
+                msg = "Record Saved"
+                return redirect('/roadmaps')
+            else:
+                msg = "Invalid Record"
+    title = "Edit Roadmap"
+    parms = {"form": form, "title": title, "msg": msg}
+    return render(request,'RoadmapEdit.html',parms)
 
 def ActiveTasks(request):
     cancel = lkpStatus.objects.get(shortname='')

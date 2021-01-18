@@ -20,17 +20,17 @@
 <!-- header stuff -->
 <div class="row menu-bar">
 <div class="col-md-1 menu-item" onclick="goPage('/')">Home</div>
-<div class="col-md-1 menu-item" onclick="goPage('/about')">About</div>
-<div class="col-md-1 menu-item" onclick="goPage('/task')">Create Task</div>
+<div class="col-md-1 menu-item" onclick="goPage('/roadmaps')">Roadmap</div>
 <div class="col-md-1 menu-item" onclick="goPage('/todo')">To Do</div>
 <div class="col-md-1 menu-item" onclick="goPage('/tasks')">Task List</div>
+<div class="col-md-1 menu-item" onclick="goPage('/about')">About</div>
 <div class="col-md-1 menu-item" onclick="goPage('/accounts/logout?next=/')">Logout</div>
 </div>
 <!-- End of header stuff -->
-
+<div class="container">
 {% block content %}
 {% endblock %}
-
+</div>
 <!-- footer stuff -->
 <div class="standard-footer">Copyright Develpreneur 2020-2021 All Rights Reserved</div>
 <!-- End of footer stuff -->

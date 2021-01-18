@@ -1,10 +1,11 @@
 {% extends 'internal.html' %}
 {% block content %}
 <h1>{{ title }}</h1>
+<button onclick="goPage('roadmap')" class="btn-info">Create Roadmap</button><br/><br/>
 {% if items %}
     {% for item in items %}
         <div class="roadmap-item" id="item_{{ item.id }}">Name:{{ item.name }}
-            [Time Spent: 0] <button onclick="goPage('roadmap/{{ roadmap.id }}')" class="btn-info">Edit</button>
+            [Time Spent: 0] <button onclick="goPage('roadmap/{{ item.id }}')" class="btn-info">Edit</button>
         </div>
     {% endfor %}
 {% else %}
