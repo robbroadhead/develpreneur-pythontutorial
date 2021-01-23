@@ -4,6 +4,15 @@ import datetime
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
+class TimeframeForm(forms.ModelForm):
+    class Meta:
+        model = models.Timeframe
+        fields = ["name","roadmap","period"]
+        widgets = {
+            "name" : forms.TextInput(attrs={'size':50,'class' : 'textInput'}),
+        }
+
+
 class RoadmapForm(forms.ModelForm):
     class Meta:
         model = models.Roadmap
@@ -19,7 +28,7 @@ class RoadmapForm(forms.ModelForm):
 class TaskForm(forms.ModelForm):
     class Meta:
         model = models.Task
-        fields = ["name","duedate","attachment","completiondate","status","minutes_spent","owner","creationdate"]
+        fields = ["name","duedate","attachment","completiondate","status","minutes_spent","owner","creationdate","timeframe"]
         widgets = {
             "name" : forms.TextInput(attrs={'size':50,'class' : 'textInput'}),
             "completiondate" : forms.SelectDateWidget(),

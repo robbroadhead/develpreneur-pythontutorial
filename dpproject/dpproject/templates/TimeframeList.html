@@ -1,0 +1,21 @@
+{% extends 'internal.html' %}
+{% block content %}
+<h1>{{ title }}</h1>
+{% if timeframes %}
+    {% for tf in timeframes %}
+        <div class="timeframe" id="tf_{{ tf.id }}">Name:{{ tf.name }}
+            <button onclick="goPage('tf/{{ tf.id }}')" class="btn-info">Edit</button>
+        </div>
+    {% endfor %}
+{% else %}
+    <strong>No Timeframes available</strong>
+{% endif %}
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+{% endblock %}

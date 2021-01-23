@@ -201,3 +201,47 @@ def showname(request):
     except Error as e:
         print(e)
     return HttpResponse(name)
+
+def EditTimeframe(request,id):
+    data = Timeframe.objects.get(pk=id)
+    form = forms.TimeframeForm(instance=data)
+    msg = "Please update data for the record"
+    if request.method == "POST":
+        if 'delete' in request.POST:
+            data = Timeframe.objects.get(pk=id).delete()
+            msg = "Record Deleted"
+            return redirect('/tfs')
+        else: 
+            form = forms.TimeframeForm(request.POST, instance=data)
+            if form.is_valid():
+                form.save()
+                msg = "Record Saved"
+                return redirect('/tfs')
+            else:
+                msg = "Invalid Record"
+    title = "Edit Time Frame"
+    parms = {"form": form, "title": title, "msg": msg}
+    return render(request,'TimeframeEdit.html',parms)
+
+def ListTimeframes(request):
+    tfs = Timeframe.objects.all().order_by('name')
+    title = "All Time Frames"
+    parms = {"title": title, "timeframes": tfs}
+    return render(request,'TimeframeList.html',parms)
+
+def CreateTimeframe(request):
+    data = Timeframe()
+    data.owner = request.user
+    form = forms.TimeframeForm(instance=data)
+    msg = "Create a New Record"
+    title = "Create Time Frame"
+    if request.method == "POST":
+        form = forms.TimeframeForm(request.POST, instance=data)
+        if form.is_valid():
+            form.save()
+            msg = "Record Saved"
+        else:
+            msg = "Invalid Record"
+    parms = {"form": form, "title": title, "msg": msg}
+    return render(request,'TimeframeEdit.html',parms)
+
