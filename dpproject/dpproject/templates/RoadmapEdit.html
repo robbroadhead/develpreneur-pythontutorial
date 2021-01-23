@@ -11,4 +11,17 @@
     <input type="submit" value="Delete Record" name="delete">
     {% csrf_token %}
 </form>
+
+<h2>Time Frames</h2>
+<button onclick="goPage('tf')" class="btn-info">Create Timeframe</button><br/><br/>
+{% if timeframes %}
+    {% for tf in timeframes %}
+        <div class="timeframe" id="tf_{{ tf.id }}">Name:{{ tf.name }}
+            <button onclick="goPage('/tf/{{ tf.id }}')" class="btn-info">Edit</button>
+        </div>
+    {% endfor %}
+{% else %}
+    <strong>No Timeframes available</strong>
+{% endif %}
+
 {% endblock %}

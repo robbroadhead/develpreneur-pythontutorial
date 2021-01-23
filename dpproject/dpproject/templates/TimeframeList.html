@@ -1,6 +1,7 @@
 {% extends 'internal.html' %}
 {% block content %}
 <h1>{{ title }}</h1>
+<button onclick="goPage('tf')" class="btn-info">Create Timeframe</button><br/><br/>
 {% if timeframes %}
     {% for tf in timeframes %}
         <div class="timeframe" id="tf_{{ tf.id }}">Name:{{ tf.name }}

@@ -12,6 +12,7 @@
     }
 </script>
 <h1>{{ title }}</h1>
+<button onclick="goPage('/task')" class="btn-info">Create Task</button><br/><br/>
 {% if tasks %}
     {% for task in tasks %}
         <div class="tasks" id="task_{{ task.id }}">Name:{{ task.name }} DueDate: {{ task.duedate }}<br/>

@@ -17,7 +17,7 @@ class Roadmap(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE,verbose_name="Owner")
 
     def __str__(self):
-        return self.name + "(" +  self.startdate + ")"
+        return self.name + "(" +  str(self.startdate) + ")"
 
 class Timeframe(models.Model):
     PERIOD_CHOICES = [

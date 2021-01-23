@@ -165,12 +165,13 @@ def EditRoadmap(request,id):
             else:
                 msg = "Invalid Record"
     title = "Edit Roadmap"
-    parms = {"form": form, "title": title, "msg": msg}
+    tfs = Timeframe.objects.filter(roadmap=data).order_by('name')
+    parms = {"form": form, "title": title, "msg": msg, "timeframes": tfs}
     return render(request,'RoadmapEdit.html',parms)
 
 def ActiveTasks(request):
-    cancel = lkpStatus.objects.get(shortname='')
-    complete = lkpStatus.objects.get(shortname='')
+    cancel = lkpStatus.objects.get(shortname='CNCL')
+    complete = lkpStatus.objects.get(shortname='COMP')
     tasks = Task.objects.filter(~Q(status=complete)).order_by('duedate','name')
     title = "Active Tasks"
     parms = {"title": title, "tasks": tasks}
@@ -220,7 +221,9 @@ def EditTimeframe(request,id):
             else:
                 msg = "Invalid Record"
     title = "Edit Time Frame"
-    parms = {"form": form, "title": title, "msg": msg}
+    tasks = Task.objects.filter(timeframe=data).order_by('duedate','name')
+
+    parms = {"form": form, "title": title, "msg": msg, "tasks": tasks}
     return render(request,'TimeframeEdit.html',parms)
 
 def ListTimeframes(request):
@@ -231,7 +234,6 @@ def ListTimeframes(request):
 
 def CreateTimeframe(request):
     data = Timeframe()
-    data.owner = request.user
     form = forms.TimeframeForm(instance=data)
     msg = "Create a New Record"
     title = "Create Time Frame"
