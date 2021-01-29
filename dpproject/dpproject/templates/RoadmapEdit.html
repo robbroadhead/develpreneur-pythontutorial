@@ -17,7 +17,7 @@
 {% if timeframes %}
     {% for tf in timeframes %}
         <div class="timeframe" id="tf_{{ tf.id }}">Name:{{ tf.name }}
-            <button onclick="goPage('/tf/{{ tf.id }}')" class="btn-info">Edit</button>
+            <button onclick="goPage('/tf/{{ tf.id }}?rm={{ rmid }}')" class="btn-info">Edit</button>
         </div>
     {% endfor %}
 {% else %}

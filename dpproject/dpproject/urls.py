@@ -22,8 +22,6 @@ from django.conf.urls import include
 
 urlpatterns = [
     path('', views.HomePage),
-    path('home2', TemplateView.as_view(template_name="homePage.html")),
-    path('about2', TemplateView.as_view(template_name="aboutPage.html")),
     path('about', views.AboutPage),
     path('admin/', admin.site.urls),
     path('sum/<int:x>/<int:y>', views.AddPage),
@@ -46,5 +44,5 @@ urlpatterns = [
     path('register/', views.userRegister),
     path('dbtest', views.showname),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('accounts/profile/', TemplateView.as_view(template_name="homePage.html")),
+    path('accounts/profile/', views.ActiveTasks),
 ]

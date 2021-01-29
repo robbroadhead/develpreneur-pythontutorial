@@ -28,6 +28,7 @@ class Timeframe(models.Model):
     ]
     name = models.CharField(max_length=50,blank=True,verbose_name="Name",help_text="Name of the timeframe")
     roadmap = models.ForeignKey(Roadmap, on_delete=models.CASCADE,verbose_name="Roadmap")
+    parent = models.ForeignKey('self', on_delete=models.CASCADE,verbose_name="Parent",null=True,blank=True)
     period = models.IntegerField(choices=PERIOD_CHOICES,default=0)
 
     def __str__(self):

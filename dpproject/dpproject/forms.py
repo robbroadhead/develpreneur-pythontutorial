@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 class TimeframeForm(forms.ModelForm):
     class Meta:
         model = models.Timeframe
-        fields = ["name","roadmap","period"]
+        fields = ["parent","name","roadmap","period"]
         widgets = {
             "name" : forms.TextInput(attrs={'size':50,'class' : 'textInput'}),
         }
