@@ -3,8 +3,11 @@
 
 <h1>{{ title }}</h1>
 <h4>{{ msg }}</h4>
+{% if roadmap %}
+    <button onclick="goPage('/roadmap/{{ roadmap.id }}')" class="btn-info">Return To {{ roadmap.name }}</button>
+{% endif %}
 {% if parent %}
-    <button onclick="goPage('/roadmap/{{ parent.id }}')" class="btn-info">Return To {{ parent.name }}</button>
+    <button onclick="goPage('/tf/{{ parent.id }}')" class="btn-info">Return To {{ parent.name }}</button>
 {% endif %}
 <form method="post">
     <table width="80%" bordercolor="red" borderwidth="1" align="center">
@@ -16,6 +19,18 @@
     {% csrf_token %}
 </form>
 
+<h2>Child Time Frames</h2>
+<button onclick="goPage('/tf')" class="btn-info">Create Timeframe</button><br/><br/>
+{% if children %}
+    {% for tf in children %}
+        <div class="timeframe" id="tf_{{ tf.id }}">Name:{{ tf.name }}
+            <button onclick="goPage('/tf/{{ tf.id }}?rm={{ rmid }}')" class="btn-info">Edit</button>
+        </div>
+    {% endfor %}
+{% else %}
+    <strong>No Child Timeframes</strong>
+{% endif %}
+<br/><br/>
 <h2>Goals For Period</h2>
 <button onclick="goPage('/task')" class="btn-info">Create Task</button>
 

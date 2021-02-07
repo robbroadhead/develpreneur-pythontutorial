@@ -203,7 +203,7 @@ def EditRoadmap(request,id):
             else:
                 msg = "Invalid Record"
     title = "Edit Roadmap"
-    tfs = Timeframe.objects.filter(roadmap=data).order_by('name')
+    tfs = Timeframe.objects.filter(roadmap=data,parent__isnull=True).order_by('name')
     parms = {"form": form, "title": title, "msg": msg, "timeframes": tfs, "rmid": id}
     return render(request,'RoadmapEdit.html',parms)
 
@@ -250,7 +250,7 @@ def EditTimeframe(request,id):
 
     data = Timeframe.objects.get(pk=id)
     form = forms.TimeframeForm(instance=data)
-    parent = []
+    roadmap = []
     msg = "Please update data for the record"
     if request.method == "POST":
         if 'delete' in request.POST:
@@ -267,16 +267,18 @@ def EditTimeframe(request,id):
                 msg = "Invalid Record"
         if request.POST['rm']:
             pid = int(request.POST['rm'])
-            parent = Roadmap.objects.get(pk=pid)
+            roadmap = Roadmap.objects.get(pk=pid)
     else:
         if request.GET['rm']:
             pid = int(request.GET['rm'])
-            parent = Roadmap.objects.get(pk=pid)
+            roadmap = Roadmap.objects.get(pk=pid)
 
     title = "Edit Time Frame"
     tasks = Task.objects.filter(timeframe=data).order_by('duedate','name')
+    children = Timeframe.objects.filter(parent=data)
+    parent = data.parent
 
-    parms = {"form": form, "title": title, "msg": msg, "tasks": tasks, "tfid": id, "parent": parent}
+    parms = {"form": form, "title": title, "msg": msg, "tasks": tasks, "tfid": id, "roadmap": roadmap, "children": children, "parent": parent}
     return render(request,'TimeframeEdit.html',parms)
 
 def ListTimeframes(request):
