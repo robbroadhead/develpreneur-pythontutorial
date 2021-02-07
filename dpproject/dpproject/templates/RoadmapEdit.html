@@ -13,7 +13,7 @@
 </form>
 
 <h2>Time Frames</h2>
-<button onclick="goPage('tf')" class="btn-info">Create Timeframe</button><br/><br/>
+<button onclick="goPage('/tf?rm={{ rmid }}')" class="btn-info">Create Timeframe</button><br/><br/>
 {% if timeframes %}
     {% for tf in timeframes %}
         <div class="timeframe" id="tf_{{ tf.id }}">Name:{{ tf.name }}

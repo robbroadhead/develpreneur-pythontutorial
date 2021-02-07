@@ -265,7 +265,7 @@ def EditTimeframe(request,id):
                 return redirect('/tfs')
             else:
                 msg = "Invalid Record"
-        if request.POST['rm']:
+        if 'rm' in request.GET:
             pid = int(request.POST['rm'])
             roadmap = Roadmap.objects.get(pk=pid)
     else:
@@ -278,7 +278,7 @@ def EditTimeframe(request,id):
     children = Timeframe.objects.filter(parent=data)
     parent = data.parent
 
-    parms = {"form": form, "title": title, "msg": msg, "tasks": tasks, "tfid": id, "roadmap": roadmap, "children": children, "parent": parent}
+    parms = {"form": form, "title": title, "msg": msg, "tasks": tasks, "tfid": id, "roadmap": roadmap, "children": children, "parent": parent, 'rmid': roadmap.id}
     return render(request,'TimeframeEdit.html',parms)
 
 def ListTimeframes(request):
@@ -295,6 +295,15 @@ def CreateTimeframe(request):
         return redirect('/accounts/login')
 
     data = Timeframe()
+    if 'rm' in request.GET:
+        rid = request.GET['rm']
+        roadm = Roadmap.objects.get(pk=rid)
+        data.roadmap = roadm
+    if 'p' in request.GET:
+        pid = request.GET['p']
+        parent = Timeframe.objects.get(pk=pid)
+        data.parent = parent
+
     form = forms.TimeframeForm(instance=data)
     msg = "Create a New Record"
     title = "Create Time Frame"
@@ -305,6 +314,5 @@ def CreateTimeframe(request):
             msg = "Record Saved"
         else:
             msg = "Invalid Record"
-    parms = {"form": form, "title": title, "msg": msg}
+    parms = {"form": form, "title": title, "msg": msg, "tfid": id}
     return render(request,'TimeframeEdit.html',parms)
-
