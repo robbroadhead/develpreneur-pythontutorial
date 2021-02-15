@@ -114,6 +114,7 @@ def EditTask(request,id):
 
     data = Task.objects.get(pk=id)
     data.owner = request.user
+    request.session['p'] = data.timeframe
     form = forms.TaskForm(instance=data)
     parent = []
     msg = "Please update data for the record"
@@ -184,6 +185,7 @@ def EditRoadmap(request,id):
     if not request.user.is_authenticated:
         return redirect('/accounts/login')
 
+    request.session['rmid'] = id
     data = Roadmap.objects.get(pk=id)
     data.owner = request.user
     form = forms.RoadmapForm(instance=data)
@@ -265,13 +267,10 @@ def EditTimeframe(request,id):
                 return redirect('/tfs')
             else:
                 msg = "Invalid Record"
-        if 'rm' in request.GET:
-            pid = int(request.POST['rm'])
-            roadmap = Roadmap.objects.get(pk=pid)
-    else:
-        if request.GET['rm']:
-            pid = int(request.GET['rm'])
-            roadmap = Roadmap.objects.get(pk=pid)
+
+    if 'rmid' in request.session:
+        rid = request.session['rmid']
+        roadmap = Roadmap.objects.get(pk=rid)
 
     title = "Edit Time Frame"
     tasks = Task.objects.filter(timeframe=data).order_by('duedate','name')
@@ -295,12 +294,12 @@ def CreateTimeframe(request):
         return redirect('/accounts/login')
 
     data = Timeframe()
-    if 'rm' in request.GET:
-        rid = request.GET['rm']
+    if 'rmid' in request.session:
+        rid = request.session['rmid']
         roadm = Roadmap.objects.get(pk=rid)
         data.roadmap = roadm
-    if 'p' in request.GET:
-        pid = request.GET['p']
+    if 'p' in request.session:
+        pid = request.session['p']
         parent = Timeframe.objects.get(pk=pid)
         data.parent = parent
 

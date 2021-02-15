@@ -20,11 +20,11 @@
 </form>
 
 <h2>Child Time Frames</h2>
-<button onclick="goPage('/tf?p={{ tfid }}&rm={{ rmid }}')" class="btn-info">Create Timeframe</button><br/><br/>
+<button onclick="goPage('/tf?p={{ tfid }}')" class="btn-info">Create Timeframe</button><br/><br/>
 {% if children %}
     {% for tf in children %}
         <div class="timeframe" id="tf_{{ tf.id }}">Name:{{ tf.name }}
-            <button onclick="goPage('/tf/{{ tf.id }}?rm={{ rmid }}')" class="btn-info">Edit</button>
+            <button onclick="goPage('/tf/{{ tf.id }}')" class="btn-info">Edit</button>
         </div>
     {% endfor %}
 {% else %}
