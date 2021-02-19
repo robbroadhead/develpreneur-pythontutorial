@@ -144,7 +144,7 @@ def ListRoadmaps(request):
     if not request.user.is_authenticated:
         return redirect('/accounts/login')
 
-    items = Roadmap.objects.all().order_by('name')
+    items = Roadmap.objects.raw('select rmp.id,rmp.name,rmp.startdate,count(tf.id) as timeframes,0 as minutes from dpproject_roadmap rmp left join dpproject_timeframe tf on rmp.id = tf.roadmap_id group by rmp.id')
     title = "My Roadmaps"
     parms = {"title": title, "items": items}
     return render(request,'RoadmapList.html',parms)

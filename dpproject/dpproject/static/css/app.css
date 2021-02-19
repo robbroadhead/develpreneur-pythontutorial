@@ -1,11 +1,16 @@
 .menu-bar {
     height:30px;
+    padding-left: 20px;
     background-color: #761905;
 }
 .menu-item {
     height:22px;
     color: #000;
     background-color: #EEE;
+    padding-left: 7px;
+    padding-right: 7px;
+    padding-bottom: 2px;
+    margin-top: 3px;
     margin-bottom: 3px;
     margin-left: 5px;
     margin-right: 5px;
@@ -14,6 +19,7 @@
 }
 
 .standard-footer {
+    padding-left: 20px;
     height:50px;
     width: 100%;
     background-image: none;
@@ -123,7 +129,7 @@ img {
     border-color: #171a1b;
     width: 70px;
     font-size: smaller;
-  
+    border-radius: 3px;
 }
 
 .btn-default {
