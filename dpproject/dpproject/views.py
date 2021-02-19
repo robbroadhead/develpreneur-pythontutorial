@@ -58,7 +58,13 @@ def CreateTask(request):
 
     data = Task()
     data.owner = request.user
-    form = forms.TaskForm(instance=data)
+    parent = Timeframe()
+    if 'p' in request.session:
+        pid = request.session['p']
+        tf = Timeframe.objects.get(pk=pid)
+        data.timeframe = tf
+        parent = tf
+
     msg = "Create a New Record"
     title = "Create Task"
     if request.method == "POST":
@@ -68,7 +74,9 @@ def CreateTask(request):
             msg = "Record Saved"
         else:
             msg = "Invalid Record"
-    parms = {"form": form, "title": title, "msg": msg}
+            
+    form = forms.TaskForm(instance=data)
+    parms = {"form": form, "title": title, "msg": msg, "parent": parent}
     return render(request,'TaskEdit.html',parms)
 
 def deleteTasks(request):
@@ -77,23 +85,6 @@ def deleteTasks(request):
 
     Task.objects.all().delete()
     tasks = Task.objects.all()
-    title = "All Tasks"
-    parms = {"title": title, "tasks": tasks}
-    return render(request,'TaskList.html',parms)
-
-def test(request):
-    # status = lkpStatus.objects.get(shortname="NEW")
-    # Task.objects.create(name="Task 3",status=status, owner=request.user)
-    # Task.objects.create(name="Task 4",status=status, owner=request.user)
-    # Task.objects.create(name="Task 5",status=status, owner=request.user)
-    # Task.objects.create(name="Task 6",status=status, owner=request.user)
-    # Task.objects.create(name="Task 7",status=status, owner=request.user)
-
-    # Display results
-    tasks = Task.objects.exclude(name__contains='7')
-    # tasks = Task.objects.filter(name__contains='ask')[:5]
-    # tasks = Task.objects.exclude(name__contains='Task')
-    # tasks = Task.objects.raw('select * from dpproject_task group by name')
     title = "All Tasks"
     parms = {"title": title, "tasks": tasks}
     return render(request,'TaskList.html',parms)
@@ -114,9 +105,8 @@ def EditTask(request,id):
 
     data = Task.objects.get(pk=id)
     data.owner = request.user
-    request.session['p'] = data.timeframe
     form = forms.TaskForm(instance=data)
-    parent = []
+    parent = data.timeframe
     msg = "Please update data for the record"
     if request.method == "POST":
         if 'delete' in request.POST:
@@ -131,13 +121,12 @@ def EditTask(request,id):
                 return redirect('/tasks')
             else:
                 msg = "Invalid Record"
-        if request.POST['tf']:
-            pid = int(request.POST['tf'])
-            parent = Timeframe.objects.get(pk=pid)
-    else:
-        if request.GET['tf']:
-            pid = int(request.GET['tf'])
-            parent = Timeframe.objects.get(pk=pid)
+
+    if 'p' in request.session:
+        pid = request.session['p']
+        parent = Timeframe.objects.get(pk=pid)
+        data.parent = parent
+
     title = "Edit Task"
     parms = {"form": form, "title": title, "msg": msg, "parent": parent}
     return render(request,'TaskEdit.html',parms)
@@ -160,10 +149,15 @@ def ListRoadmaps(request):
     parms = {"title": title, "items": items}
     return render(request,'RoadmapList.html',parms)
 
+def cleanSession(request):
+    request.session['rmid'] = None
+    request.session['p'] = None
+    
 def CreateRoadmap(request):
     if not request.user.is_authenticated:
         return redirect('/accounts/login')
-
+    
+    cleanSession(request)
     data = Roadmap()
     data.owner = request.user
     form = forms.RoadmapForm(instance=data)
@@ -186,6 +180,7 @@ def EditRoadmap(request,id):
         return redirect('/accounts/login')
 
     request.session['rmid'] = id
+    request.session['p'] = None
     data = Roadmap.objects.get(pk=id)
     data.owner = request.user
     form = forms.RoadmapForm(instance=data)
@@ -277,6 +272,7 @@ def EditTimeframe(request,id):
     children = Timeframe.objects.filter(parent=data)
     parent = data.parent
 
+    request.session['p'] = id
     parms = {"form": form, "title": title, "msg": msg, "tasks": tasks, "tfid": id, "roadmap": roadmap, "children": children, "parent": parent, 'rmid': roadmap.id}
     return render(request,'TimeframeEdit.html',parms)
 
@@ -300,8 +296,9 @@ def CreateTimeframe(request):
         data.roadmap = roadm
     if 'p' in request.session:
         pid = request.session['p']
-        parent = Timeframe.objects.get(pk=pid)
-        data.parent = parent
+        if pid != None:
+            parent = Timeframe.objects.get(pk=pid)
+            data.parent = parent
 
     form = forms.TimeframeForm(instance=data)
     msg = "Create a New Record"

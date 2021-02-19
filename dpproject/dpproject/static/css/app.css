@@ -99,11 +99,11 @@
 }
 
 H1 {
-	align: center;
+	text-align: center;
 }
 
 img {
-	height: 100px;
+  	height: 100px;
     background-color: #FFF;
     border-radius: 5px;
     border-width: 1px;
@@ -114,6 +114,18 @@ img {
     margin-right: 20px;
     margin-bottom: 5px;
 }
+
+.btn-task {
+    color: #761905;
+    padding-bottom: 3px;
+    margin-bottom: 3px;
+    background-color: #AAA;
+    border-color: #171a1b;
+    width: 70px;
+    font-size: smaller;
+  
+}
+
 .btn-default {
 	color: #333;
 	background-color: #cdddeb;
@@ -127,7 +139,7 @@ img {
 .message {
     font-style: italic;
     text-align: center;
-    font-color: #DD0000;
+    color: #DD0000;
     font-size: 14px;
 }
 
