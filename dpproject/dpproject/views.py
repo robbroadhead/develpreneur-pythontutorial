@@ -200,7 +200,8 @@ def EditRoadmap(request,id):
             else:
                 msg = "Invalid Record"
     title = "Edit Roadmap"
-    tfs = Timeframe.objects.filter(roadmap=data,parent__isnull=True).order_by('name')
+
+    tfs = Timeframe.objects.raw("select tf1.*,count(tf2.id) children from dpproject_timeframe tf1 left join dpproject_timeframe tf2 on tf2.parent_id=tf1.id where tf1.roadmap_id=%s and tf1.parent_id is null group by tf1.id order by name",[id,])
     parms = {"form": form, "title": title, "msg": msg, "timeframes": tfs, "rmid": id}
     return render(request,'RoadmapEdit.html',parms)
 
