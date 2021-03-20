@@ -4,8 +4,8 @@
 <button onclick="goPage('/roadmap')" class="btn-info">Create Roadmap</button><br/><br/>
 {% if items %}
     {% for item in items %}
-        <div class="roadmap-item" id="item_{{ item.id }}">Name:{{ item.name }} has {{ item.timeframes }} children
-            [Time Spent: {{ item.minutes }}] <button onclick="goPage('roadmap/{{ item.id }}')" class="btn-info">Edit</button>
+        <div class="roadmap-item"  onclick="goPage('roadmap/{{ item.id }}')" id="item_{{ item.id }}">Name:{{ item.name }} has {{ item.timeframes }} children
+            [Time Spent: {{ item.minutes }}]
         </div>
     {% endfor %}
 {% else %}

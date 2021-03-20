@@ -3,7 +3,7 @@
 <h1>{{ title }}</h1>
 <h4>{{ msg }}</h4>
 <form method="post">
-    <table width="80%" bordercolor="red" borderwidth="1" align="center">
+    <table width="100%" bordercolor="#761905" borderwidth="1" align="center">
         <tr><td width="30%">&nbsp;</td><td width="70%">&nbsp;</td></tr>
     {{ form.as_table }}
     </table>
@@ -16,8 +16,7 @@
 <button onclick="goPage('/tf')" class="btn-info">Create Timeframe</button><br/><br/>
 {% if timeframes %}
     {% for tf in timeframes %}
-        <div class="timeframe" id="tf_{{ tf.id }}">Name:{{ tf.name }} has {{ tf.children }} children. 
-            <button onclick="goPage('/tf/{{ tf.id }}')" class="btn-info">Edit</button>
+        <div onclick="goPage('/tf/{{ tf.id }}')" class="timeframe" id="tf_{{ tf.id }}">Name:{{ tf.name }} has {{ tf.children }} children. 
         </div>
     {% endfor %}
 {% else %}

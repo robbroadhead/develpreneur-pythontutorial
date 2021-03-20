@@ -15,7 +15,7 @@
 <button onclick="goPage('/task')" class="btn-info">Create Task</button><br/><br/>
 {% if tasks %}
     {% for task in tasks %}
-        <div class="tasks" id="task_{{ task.id }}">
+        <div class="tasks" onclick="goPage('task/{{ task.id }}')" id="task_{{ task.id }}">
             <div class="row">
                 <div class="col-md-3">
                 TimeFrame :{{ task.timeframe }}
@@ -29,7 +29,6 @@
                     Time Spent: {{ task.minutes_spent }}
                 </div>
                 <div class="col-md-3">
-                    <button onclick="goPage('task/{{ task.id }}')" class="btn-task">Edit</button><br/>
                     <button onclick="completeTask({{ task.id }})" class="btn-task">Complete</button>
                 </div>
             </div>

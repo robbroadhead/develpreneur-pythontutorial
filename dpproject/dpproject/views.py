@@ -122,7 +122,7 @@ def EditTask(request,id):
             else:
                 msg = "Invalid Record"
 
-    if 'p' in request.session:
+    if 'p' in request.session and request.session['p'] != None:
         pid = request.session['p']
         parent = Timeframe.objects.get(pk=pid)
         data.parent = parent
@@ -134,7 +134,8 @@ def EditTask(request,id):
 def ListTasks(request):
     if not request.user.is_authenticated:
         return redirect('/accounts/login')
-
+    
+    cleanSession(request)
     tasks = Task.objects.all().order_by('duedate','name')
     title = "All Tasks"
     parms = {"title": title, "tasks": tasks}
@@ -247,8 +248,8 @@ def EditTimeframe(request,id):
         return redirect('/accounts/login')
 
     data = Timeframe.objects.get(pk=id)
+    roadmap = data.roadmap
     form = forms.TimeframeForm(instance=data)
-    roadmap = []
     msg = "Please update data for the record"
     if request.method == "POST":
         if 'delete' in request.POST:
@@ -264,7 +265,7 @@ def EditTimeframe(request,id):
             else:
                 msg = "Invalid Record"
 
-    if 'rmid' in request.session:
+    if 'rmid' in request.session and request.session['rmid'] != None:
         rid = request.session['rmid']
         roadmap = Roadmap.objects.get(pk=rid)
 

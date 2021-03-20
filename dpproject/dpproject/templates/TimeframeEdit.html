@@ -10,7 +10,7 @@
     <button onclick="goPage('/tf/{{ parent.id }}')" class="btn-info">Return To {{ parent.name }}</button>
 {% endif %}
 <form method="post">
-    <table width="80%" bordercolor="red" borderwidth="1" align="center">
+    <table width="100%" bordercolor="#761905" borderwidth="1" align="center">
         <tr><td width="30%">&nbsp;</td><td width="70%">&nbsp;</td></tr>
     {{ form.as_table }}
     </table>
@@ -23,8 +23,7 @@
 <button onclick="goPage('/tf?p={{ tfid }}')" class="btn-info">Create Timeframe</button><br/><br/>
 {% if children %}
     {% for tf in children %}
-        <div class="timeframe" id="tf_{{ tf.id }}">Name:{{ tf.name }}
-            <button onclick="goPage('/tf/{{ tf.id }}')" class="btn-info">Edit</button>
+        <div  onclick="goPage('/tf/{{ tf.id }}')" class="timeframe" id="tf_{{ tf.id }}">Name:{{ tf.name }}
         </div>
     {% endfor %}
 {% else %}
@@ -33,17 +32,20 @@
 <br/><br/>
 <h2>Goals For Period</h2>
 <button onclick="goPage('/task')" class="btn-info">Create Task</button>
-
 <br/><br/>
 {% if tasks %}
     {% for task in tasks %}
-        <div class="tasks" id="task_{{ task.id }}">Name:{{ task.name }} DueDate: {{ task.duedate }}<br/>
-            Status: {{ task.status }} [Time Spent: {{ task.minutes_spent }}] <button onclick="goPage('/task/{{ task.id }}?tf={{ tfid }}')" class="btn-info">Edit</button>
-            <button onclick="completeTask({{ task.id }})" class="btn-info">Complete</button>
+        <div onclick="goPage('/task/{{ task.id }}?tf={{ tfid }}')" class="tasks" id="task_{{ task.id }}">
+            <div class="row">
+                <div class="col-md-9">Name:{{ task.name }} DueDate: {{ task.duedate }}<br/>
+                    Status: {{ task.status }} [Time Spent: {{ task.minutes_spent }}]
+                </div>
+                <div class="col-md-3"><button class="btn-task">Complete</button></div>
+            </div>
         </div>
     {% endfor %}
 {% else %}
     <strong>No Tasks Assigned To This Time Period</strong>
 {% endif %}
-
+<br/><br/><br/><br/>
 {% endblock %}

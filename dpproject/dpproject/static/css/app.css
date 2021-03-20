@@ -132,6 +132,17 @@ img {
     border-radius: 3px;
 }
 
+.btn-edit {
+    color: #EEE;
+    padding-bottom: 3px;
+    margin-bottom: 3px;
+    background-color: #761905;
+    border-color: #171a1b;
+    width: 100px;
+    font-size: smaller;
+    border-radius: 3px;
+}
+
 .btn-default {
 	color: #333;
 	background-color: #cdddeb;
