@@ -27,6 +27,36 @@ def Looper(request,value,loop):
 
     return HttpResponse("Success")
 
+def ReportParameters(request,id):
+    parms = "<h4>No Parameters Available</h4>"
+    
+    # timeline
+    if id == 1:
+        parms = "Select Timeline: <select id='rptParm1'>"
+        opts = Timeframe.objects.all()
+        for opt in opts:
+            parms = parms + "<option id='" + str(opt.id) + "'>" + opt.name + "</option>"
+
+        parms = parms + "</select>"
+
+    # roadmap
+    if id == 2:
+        parms = "Select Roadmap: <select id='rptParm1'>"
+        opts = Roadmap.objects.all()
+        for opt in opts:
+            parms = parms + "<option id='" + str(opt.id) + "'>" + opt.name + "</option>"
+        parms = parms + "</select>"
+        
+    # status
+    if id == 3:
+        parms = "Select status: <select id='rptParm1'>"
+        opts = lkpStatus.objects.all()
+        for opt in opts:
+            parms = parms + "<option id='" + str(opt.id) + "'>" + opt.name + "</option>"
+        parms = parms + "</select>"
+
+    return HttpResponse(parms)
+
 def completeTask(request,id):
     if not request.user.is_authenticated:
         return redirect('/accounts/login')

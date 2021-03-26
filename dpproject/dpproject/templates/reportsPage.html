@@ -1,27 +1,30 @@
 {% extends 'internal.html' %}
 {% block content %}
 <script>
+    function displayReportParameters(id) {
+        var target = "/rptparms/" + id;
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var elem = document.getElementById("parameters");
+                var result = this.responseText;
+                elem.innerHTML = result;
+                elem.style.display = "block";
+            }
+        }
+        xhttp.open("GET",target,true);
+        xhttp.send();
+        return;
+    }
     function selectReport() {
         var selector = document.getElementById("reportType");
         var id = selector.options[selector.selectedIndex].value;
 
-        var elem = document.getElementById("parameters");
-        elem.innerHTML = id;
-        elem.style.display = "block";
-        return;
-    }
-    function completeTask(id) {
-        var target = "/complete/" + id;
-        var xhttp = new XMLHttpRequest();
-        xhttp.open("GET",target,true);
-        xhttp.send();
-        var elem = document.getElementById("task_" + id);
-        elem.style.display = "none";
+        displayReportParameters(id);
         return;
     }
 </script>
 <h1>{{ title }}</h1>
-<button onclick="goPage('/task')" class="btn-info">Create Task</button><br/><br/>
 <strong>Reports: </strong>
 <br/>
 <div class="row" id="reportsSelector">
@@ -31,9 +34,11 @@
     <option value="3">Tasks By Status</option>
     </select>
 </div>
+
+
 <div class="row" id="parameters" style="display: None;">
-    Some Parameters
 </div>
+<button onclick="runReport()" class="btn-info">Run Report</button>
 <div class="row" id="results">
 {% if tasks %}
     {% for task in tasks %}

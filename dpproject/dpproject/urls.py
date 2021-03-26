@@ -41,6 +41,7 @@ urlpatterns = [
     path('todo', views.ActiveTasks),
     path('web2', views.Examples),
     path('register/', views.userRegister),
+    path('rptparms/<int:id>', views.ReportParameters),
     path('dbtest', views.showname),
     path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/profile/', views.ActiveTasks),
