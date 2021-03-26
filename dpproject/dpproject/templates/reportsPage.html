@@ -1,6 +1,15 @@
 {% extends 'internal.html' %}
 {% block content %}
 <script>
+    function selectReport() {
+        var selector = document.getElementById("reportType");
+        var id = selector.options[selector.selectedIndex].value;
+
+        var elem = document.getElementById("parameters");
+        elem.innerHTML = id;
+        elem.style.display = "block";
+        return;
+    }
     function completeTask(id) {
         var target = "/complete/" + id;
         var xhttp = new XMLHttpRequest();
@@ -13,6 +22,19 @@
 </script>
 <h1>{{ title }}</h1>
 <button onclick="goPage('/task')" class="btn-info">Create Task</button><br/><br/>
+<strong>Reports: </strong>
+<br/>
+<div class="row" id="reportsSelector">
+    <select id="reportType" onchange="selectReport()">
+    <option value="1">Tasks By Timeline</option>
+    <option value="2">Tasks By Roadmap</option>
+    <option value="3">Tasks By Status</option>
+    </select>
+</div>
+<div class="row" id="parameters" style="display: None;">
+    Some Parameters
+</div>
+<div class="row" id="results">
 {% if tasks %}
     {% for task in tasks %}
         <div class="tasks" onclick="goPage('task/{{ task.id }}')" id="task_{{ task.id }}">
@@ -41,6 +63,7 @@
 {% else %}
     <strong>No Tasks available</strong>
 {% endif %}
+</div>
 <br/>
 <br/>
 <br/>

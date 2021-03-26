@@ -15,10 +15,11 @@ def HomePage(request):
 
     return redirect('/todo')
 
-def AboutPage(request):
+def ReportsPage(request):
     msg = ""
-    parms = {"msg": msg}
-    return render(request,'aboutPage.html',parms)
+    title = "Reports Home"
+    parms = {"msg": msg,"title": title}
+    return render(request,'reportsPage.html',parms)
     
 def Looper(request,value,loop):
     for i in range(loop):
