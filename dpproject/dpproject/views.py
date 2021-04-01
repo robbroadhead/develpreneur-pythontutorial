@@ -21,6 +21,31 @@ def ReportsPage(request):
     parms = {"msg": msg,"title": title}
     return render(request,'reportsPage.html',parms)
     
+def ReportGenerate(request,rid,pid):
+    msg = ""
+    title = ""
+
+    # timeline
+    if rid == 1:
+        title = "Tasks By Timeframe"
+        tf = Timeframe.objects.get(pk=pid)
+        tasks = Task.objects.filter(timeframe=tf)
+
+    # roadmap
+    if rid == 2:
+        title = "Tasks By Roadmap"
+        tf = Timeframe.objects.get(pk=pid)
+        tasks = Task.objects.filter(timeframe=tf)
+
+    # status
+    if rid == 3:
+        title = "Tasks By Status"
+        st = lkpStatus.objects.get(pk=pid)
+        tasks = Task.objects.filter(status=st)
+
+    parms = {"msg": msg,"title": title, 'tasks': tasks}
+    return render(request,'reportsPage.html',parms)
+    
 def Looper(request,value,loop):
     for i in range(loop):
         print(value)
@@ -35,7 +60,7 @@ def ReportParameters(request,id):
         parms = "Select Timeline: <select id='rptParm1'>"
         opts = Timeframe.objects.all()
         for opt in opts:
-            parms = parms + "<option id='" + str(opt.id) + "'>" + opt.name + "</option>"
+            parms = parms + "<option value='" + str(opt.id) + "'>" + opt.name + "</option>"
 
         parms = parms + "</select>"
 
@@ -44,7 +69,7 @@ def ReportParameters(request,id):
         parms = "Select Roadmap: <select id='rptParm1'>"
         opts = Roadmap.objects.all()
         for opt in opts:
-            parms = parms + "<option id='" + str(opt.id) + "'>" + opt.name + "</option>"
+            parms = parms + "<option value='" + str(opt.id) + "'>" + opt.name + "</option>"
         parms = parms + "</select>"
         
     # status
@@ -52,7 +77,7 @@ def ReportParameters(request,id):
         parms = "Select status: <select id='rptParm1'>"
         opts = lkpStatus.objects.all()
         for opt in opts:
-            parms = parms + "<option id='" + str(opt.id) + "'>" + opt.name + "</option>"
+            parms = parms + "<option value='" + str(opt.id) + "'>" + opt.name + "</option>"
         parms = parms + "</select>"
 
     return HttpResponse(parms)

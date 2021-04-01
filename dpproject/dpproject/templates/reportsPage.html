@@ -16,6 +16,14 @@
         xhttp.send();
         return;
     }
+    function runReport() {
+        var rpt = document.getElementById("reportType");
+        var parm = document.getElementById("rptParm1");
+
+        /* global goPage */
+        goPage('/rpt/' + rpt.value + '/' + parm.value );
+    }
+    
     function selectReport() {
         var selector = document.getElementById("reportType");
         var id = selector.options[selector.selectedIndex].value;
@@ -66,7 +74,7 @@
         </div>
     {% endfor %}
 {% else %}
-    <strong>No Tasks available</strong>
+    <strong>No Tasks Meet The Report Criteria</strong>
 {% endif %}
 </div>
 <br/>
