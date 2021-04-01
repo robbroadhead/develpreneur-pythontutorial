@@ -49,30 +49,14 @@
 <button onclick="runReport()" class="btn-info">Run Report</button>
 <div class="row" id="results">
 {% if tasks %}
+    <table width="90%"><tr><th>Time Frame</th><th>Name</th><th>Status</th><th>Time Spent</th><th>Due Date</th></tr>
     {% for task in tasks %}
-        <div class="tasks" onclick="goPage('task/{{ task.id }}')" id="task_{{ task.id }}">
-            <div class="row">
-                <div class="col-md-3">
-                TimeFrame :{{ task.timeframe }}
-                </div>
-                <div class="col-md-4">
-                Name:{{ task.name }} <br/>
-                Status: {{ task.status }} 
-                </div>
-                <div class="col-md-2">
-                    DueDate: {{ task.duedate }}</br>
-                    Time Spent: {{ task.minutes_spent }}
-                </div>
-                <div class="col-md-3">
-                {% if task.status.shortname != "COMP" %}
-                    <button onclick="completeTask({{ task.id }})" class="btn-task">Complete</button>
-                {% else %}
-                    &nbsp;
-                {% endif %}
-                </div>
-            </div>
-        </div>
+        <tr><td>{{ task.timeframe }}</td><td>{{ task.name }}</td>
+            <td>{{ task.status }}</td><td>{{ task.minutes_spent }}</td>
+            <td>{{ task.duedate }}</td>
+        </tr>
     {% endfor %}
+    </table>
 {% else %}
     <strong>No Tasks Meet The Report Criteria</strong>
 {% endif %}

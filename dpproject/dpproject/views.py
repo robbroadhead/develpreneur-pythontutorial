@@ -34,8 +34,7 @@ def ReportGenerate(request,rid,pid):
     # roadmap
     if rid == 2:
         title = "Tasks By Roadmap"
-        tf = Timeframe.objects.get(pk=pid)
-        tasks = Task.objects.filter(timeframe=tf)
+        tasks = Task.objects.raw("select t.* from dpproject_task t inner join dpproject_timeframe tf on t.timeframe_id=tf.id where tf.roadmap_id=%s",[pid,])
 
     # status
     if rid == 3:
