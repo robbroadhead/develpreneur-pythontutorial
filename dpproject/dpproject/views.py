@@ -142,6 +142,7 @@ def deleteTasks(request):
     tasks = Task.objects.all()
     title = "All Tasks"
     parms = {"title": title, "tasks": tasks}
+    request.session['msg'] = "Tasks Deleted"
     return render(request,'TaskList.html',parms)
 
 def massUpdate(request):
@@ -166,13 +167,13 @@ def EditTask(request,id):
     if request.method == "POST":
         if 'delete' in request.POST:
             data = Task.objects.get(pk=id).delete()
-            msg = "Record Deleted"
+            request.session['msg'] = "Record Deleted"
             return redirect('/tasks')
         else: 
             form = forms.TaskForm(request.POST, instance=data)
             if form.is_valid():
                 form.save()
-                msg = "Record Saved"
+                request.session['msg'] = "Record Saved"
                 return redirect('/tasks')
             else:
                 msg = "Invalid Record"
@@ -193,7 +194,9 @@ def ListTasks(request):
     cleanSession(request)
     tasks = Task.objects.all().order_by('duedate','name')
     title = "All Tasks"
-    parms = {"title": title, "tasks": tasks}
+    msg = request.session['msg']
+
+    parms = {"title": title, "tasks": tasks, "msg": msg}
     return render(request,'TaskList.html',parms)
 
 def ListRoadmaps(request):
@@ -208,6 +211,7 @@ def ListRoadmaps(request):
 def cleanSession(request):
     request.session['rmid'] = None
     request.session['p'] = None
+    request.session['msg'] = None
     
 def CreateRoadmap(request):
     if not request.user.is_authenticated:
@@ -267,7 +271,12 @@ def ActiveTasks(request):
 
     cancel = lkpStatus.objects.get(shortname='CNCL')
     complete = lkpStatus.objects.get(shortname='COMP')
-    tasks = Task.objects.filter(~Q(status=complete)).order_by('duedate','name')
+    current = None
+    if 'p' in request.session and request.session['p'] != None:
+        pid = request.session['p']
+        current = Timeframe.objects.get(pk=pid)
+
+    tasks = Task.objects.filter(~Q(status=complete),Q(timeframe=current)).order_by('duedate','name')
     title = "Active Tasks"
     parms = {"title": title, "tasks": tasks}
     return render(request,'TaskList.html',parms)

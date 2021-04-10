@@ -2,7 +2,7 @@
 {% block content %}
 
 <h1>{{ title }}</h1>
-<h4>{{ msg }}</h4>
+<div class="message">{{ msg }}</div>
 {% if parent %}
 <button onclick="goPage('/tf/{{ parent.id }}')" class="btn-info">Return To {{ parent.name }}</button>
 <br/>
@@ -15,7 +15,9 @@
     </table>
     <br/>
     <input type="submit" class="btn-edit" value="Save Record" name="submit">
-    <input type="submit" class="btn-edit" value="Delete Record" name="delete">
+    {% if title == "Edit Task" %}
+        <input type="submit" class="btn-edit" value="Delete Record" name="delete">
+    {% endif %}
     {% csrf_token %}
 </form>
 {% endblock %}
