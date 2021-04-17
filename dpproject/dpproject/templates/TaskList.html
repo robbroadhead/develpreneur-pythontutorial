@@ -10,9 +10,24 @@
         elem.style.display = "none";
         return;
     }
+    function selectTimeFrame() {
+        var selector = document.getElementById("current_tf");
+        var id = selector.options[selector.selectedIndex].value;
+        goPage('/settf/' + id);
+        return;
+    }
+
 </script>
 <h1>{{ title }}</h1>
-<button onclick="goPage('/task')" class="btn-info">Create Task</button><br/>Tasks Count: {{ count }}<br/>
+<button onclick="goPage('/task')" class="btn-info">Create Task</button><br/>
+    <select id="current_tf" onchange="selectTimeFrame()">
+    {% for opt in opts %}
+        <option value='{{ opt.id }}' 
+        {% if opt.id == pid %} selected="selected"
+        {% endif %}
+        >{{ opt.name }}</option>
+    {% endfor %}
+    </select> | Tasks Count: {{ count }}<br/>
 {% if tasks %}
     {% for task in tasks %}
         <div class="tasks" id="task_{{ task.id }}">

@@ -275,14 +275,16 @@ def ActiveTasks(request):
     cancel = lkpStatus.objects.get(shortname='CNCL')
     complete = lkpStatus.objects.get(shortname='COMP')
     current = None
+    pid = 0
     if 'p' in request.session and request.session['p'] != None:
         pid = request.session['p']
         current = Timeframe.objects.get(pk=pid)
 
+    opts = Timeframe.objects.all()
     tasks = Task.objects.filter(~Q(status=complete),Q(timeframe=current)).order_by('duedate','name')
     count = len(tasks)
     title = "Active Tasks"
-    parms = {"title": title, "tasks": tasks, "count": count}
+    parms = {"title": title, "tasks": tasks, "count": count, "opts": opts, "pid": pid}
     return render(request,'TaskList.html',parms)
 
 def Examples(request):
@@ -310,6 +312,13 @@ def showname(request):
     except Error as e:
         print(e)
     return HttpResponse(name)
+
+def SetTimeframe(request,id):
+    if not request.user.is_authenticated:
+        return redirect('/accounts/login')
+
+    request.session['p'] = id
+    return redirect('/todo')
 
 def EditTimeframe(request,id):
     if not request.user.is_authenticated:
