@@ -1,6 +1,16 @@
 {% extends 'internal.html' %}
 {% block content %}
-
+<script>
+    function completeTask(id) {
+        var target = "/complete/" + id;
+        var xhttp = new XMLHttpRequest();
+        xhttp.open("GET",target,true);
+        xhttp.send();
+        var elem = document.getElementById("task_" + id);
+        elem.style.display = "none";
+        return;
+    }
+</script>
 <h1>{{ title }}</h1>
 <h4>{{ msg }}</h4>
 {% if roadmap %}
@@ -35,12 +45,19 @@
 <br/><br/>
 {% if tasks %}
     {% for task in tasks %}
-        <div onclick="goPage('/task/{{ task.id }}?tf={{ tfid }}')" class="tasks" id="task_{{ task.id }}">
+        <div class="tasks-slim" id="task_{{ task.id }}">
             <div class="row">
-                <div class="col-md-9">Name:{{ task.name }} DueDate: {{ task.duedate }}<br/>
+                <div class="col-md-10"onclick="goPage('/task/{{ task.id }}?tf={{ tfid }}')">
+                    Name:{{ task.name }} DueDate: {{ task.duedate }}
                     Status: {{ task.status }} [Time Spent: {{ task.minutes_spent }}]
                 </div>
-                <div class="col-md-3"><button class="btn-task">Complete</button></div>
+                <div class="col-md-2">                
+                {% if task.status.shortname != "COMP" %}
+                    <button onclick="completeTask({{ task.id }})" class="btn-task">Complete</button>
+                {% else %}
+                    &nbsp;
+                {% endif %}
+                </div>
             </div>
         </div>
     {% endfor %}

@@ -15,6 +15,9 @@ def HomePage(request):
 
     return redirect('/todo')
 
+def AboutPage(request):
+    return render(request,'about.html')
+
 def ReportsPage(request):
     msg = ""
     title = "Reports Home"
@@ -168,7 +171,7 @@ def EditTask(request,id):
         if 'delete' in request.POST:
             data = Task.objects.get(pk=id).delete()
             request.session['msg'] = "Record Deleted"
-            return redirect('/tasks')
+            return redirect('/tf/' + str(parent.id))
         else: 
             form = forms.TaskForm(request.POST, instance=data)
             if form.is_valid():
@@ -277,8 +280,9 @@ def ActiveTasks(request):
         current = Timeframe.objects.get(pk=pid)
 
     tasks = Task.objects.filter(~Q(status=complete),Q(timeframe=current)).order_by('duedate','name')
+    count = len(tasks)
     title = "Active Tasks"
-    parms = {"title": title, "tasks": tasks}
+    parms = {"title": title, "tasks": tasks, "count": count}
     return render(request,'TaskList.html',parms)
 
 def Examples(request):
@@ -319,7 +323,7 @@ def EditTimeframe(request,id):
         if 'delete' in request.POST:
             data = Timeframe.objects.get(pk=id).delete()
             msg = "Record Deleted"
-            return redirect('/tfs')
+            return redirect('/roadmap/' + str(roadmap.id))
         else: 
             form = forms.TimeframeForm(request.POST, instance=data)
             if form.is_valid():

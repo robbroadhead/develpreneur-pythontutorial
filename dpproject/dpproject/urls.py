@@ -22,6 +22,7 @@ from django.conf.urls import include
 
 urlpatterns = [
     path('', views.HomePage),
+    path('about', views.AboutPage),
     path('reports', views.ReportsPage),
     path('rpt/<int:rid>/<int:pid>', views.ReportGenerate),
     path('admin/', admin.site.urls),

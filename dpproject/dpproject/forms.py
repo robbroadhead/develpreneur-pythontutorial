@@ -28,9 +28,10 @@ class RoadmapForm(forms.ModelForm):
 class TaskForm(forms.ModelForm):
     class Meta:
         model = models.Task
-        fields = ["name","duedate","attachment","completiondate","status","minutes_spent","owner","creationdate","timeframe"]
+        fields = ["name","description","duedate","attachment","completiondate","status","minutes_spent","owner","creationdate","timeframe"]
         widgets = {
             "name" : forms.TextInput(attrs={'size':50,'class' : 'textInput'}),
+            "description" : forms.Textarea(attrs={'cols':80,'rows':'5','class':'inputText'}),
             "completiondate" : forms.SelectDateWidget(),
             "duedate" : forms.SelectDateWidget(),
             "owner" : forms.HiddenInput(),

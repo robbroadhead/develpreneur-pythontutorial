@@ -12,19 +12,19 @@
     }
 </script>
 <h1>{{ title }}</h1>
-<button onclick="goPage('/task')" class="btn-info">Create Task</button><br/><br/>
+<button onclick="goPage('/task')" class="btn-info">Create Task</button><br/>Tasks Count: {{ count }}<br/>
 {% if tasks %}
     {% for task in tasks %}
-        <div class="tasks" onclick="goPage('task/{{ task.id }}')" id="task_{{ task.id }}">
+        <div class="tasks" id="task_{{ task.id }}">
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-3" onclick="goPage('task/{{ task.id }}')">
                 TimeFrame :{{ task.timeframe }}
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4" onclick="goPage('task/{{ task.id }}')">
                 Name:{{ task.name }} <br/>
                 Status: {{ task.status }} 
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-2" onclick="goPage('task/{{ task.id }}')">
                     DueDate: {{ task.duedate }}</br>
                     Time Spent: {{ task.minutes_spent }}
                 </div>

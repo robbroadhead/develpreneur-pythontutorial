@@ -36,6 +36,7 @@ class Timeframe(models.Model):
 
 class Task(models.Model):
     name = models.CharField(max_length=50,blank=True,verbose_name="Name",help_text="Name of the task")
+    description = models.CharField(max_length=500,blank=True,verbose_name="Description",help_text="Details about the task")
     duedate = models.DateTimeField(null=True,blank=True,verbose_name="Date Due")
     completiondate = models.DateTimeField(null=True,blank=True,verbose_name="Completed Date")
     status = models.ForeignKey(lkpStatus, on_delete=models.CASCADE,verbose_name="Status",db_index=True)
