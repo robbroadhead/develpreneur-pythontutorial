@@ -62,7 +62,10 @@ def ReportParameters(request,id):
         parms = "Select Timeline: <select id='rptParm1'>"
         opts = Timeframe.objects.all()
         for opt in opts:
-            parms = parms + "<option value='" + str(opt.id) + "'>" + opt.name + "</option>"
+            if opt.parent == None:
+                parms = parms + "<option value='" + str(opt.id) + "'>["  + opt.roadmap.name + "] " +  opt.name + "</option>"
+            else:
+                parms = parms + "<option value='" + str(opt.id) + "'>["  + opt.roadmap.name + "] " + opt.parent.name + ":" + opt.name + "</option>"
 
         parms = parms + "</select>"
 
@@ -348,7 +351,11 @@ def EditTimeframe(request,id):
             if form.is_valid():
                 form.save()
                 msg = "Record Saved"
-                return redirect('/tfs')
+                current = Timeframe.objects.get(pk=id)
+                tid = id
+                if current.parent != None:
+                    tid = current.parent.id
+                return redirect('/tf/' + str(tid))
             else:
                 msg = "Invalid Record"
 
