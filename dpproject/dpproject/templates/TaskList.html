@@ -10,17 +10,17 @@
         elem.style.display = "none";
         return;
     }
-    function selectTimeFrame() {
+    function selectTimeFrame(page) {
         var selector = document.getElementById("current_tf");
         var id = selector.options[selector.selectedIndex].value;
-        goPage('/settf/' + id);
+        goPage('/settf/' + page + "/" + id);
         return;
     }
 
 </script>
 <h1>{{ title }}</h1>
 <button onclick="goPage('/task')" class="btn-info">Create Task</button><br/>
-    <select id="current_tf" onchange="selectTimeFrame()">
+    <select id="current_tf" onchange="selectTimeFrame('{{ page }}')">
     {% for opt in opts %}
         <option value='{{ opt.id }}' 
         {% if opt.id == pid %} selected="selected"

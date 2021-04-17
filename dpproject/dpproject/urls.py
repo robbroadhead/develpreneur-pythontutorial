@@ -38,7 +38,7 @@ urlpatterns = [
     path('tf', views.CreateTimeframe),
     path('tfs', views.ListTimeframes),
     path('tf/<int:id>', views.EditTimeframe),
-    path('settf/<int:id>', views.SetTimeframe),
+    path('settf/<str:page>/<int:id>', views.SetTimeframe),
     path('complete/<int:id>', views.completeTask),
     path('updateAllTasks', views.massUpdate),
     path('todo', views.ActiveTasks),

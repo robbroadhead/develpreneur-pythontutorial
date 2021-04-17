@@ -116,6 +116,8 @@ def CreateTask(request):
 
     data = Task()
     data.owner = request.user
+    new = lkpStatus.objects.get(shortname='NEW')
+    data.status = new
     parent = Timeframe()
     if 'p' in request.session:
         pid = request.session['p']
@@ -194,12 +196,20 @@ def ListTasks(request):
     if not request.user.is_authenticated:
         return redirect('/accounts/login')
     
-    cleanSession(request)
-    tasks = Task.objects.all().order_by('duedate','name')
+    current = None
+    pid = 0
+    if 'p' in request.session and request.session['p'] != None:
+        pid = request.session['p']
+        current = Timeframe.objects.get(pk=pid)
+
+    opts = Timeframe.objects.all()
+    tasks = Task.objects.filter(Q(timeframe=current)).order_by('duedate','name')
+    count = len(tasks)
     title = "All Tasks"
     msg = request.session['msg']
+    opts = Timeframe.objects.all()
 
-    parms = {"title": title, "tasks": tasks, "msg": msg}
+    parms = {"title": title, "tasks": tasks, "msg": msg, "opts": opts, "pid": pid, "page": "tasks", "count":count}
     return render(request,'TaskList.html',parms)
 
 def ListRoadmaps(request):
@@ -284,7 +294,7 @@ def ActiveTasks(request):
     tasks = Task.objects.filter(~Q(status=complete),Q(timeframe=current)).order_by('duedate','name')
     count = len(tasks)
     title = "Active Tasks"
-    parms = {"title": title, "tasks": tasks, "count": count, "opts": opts, "pid": pid}
+    parms = {"title": title, "tasks": tasks, "count": count, "opts": opts, "pid": pid, "page": "todo"}
     return render(request,'TaskList.html',parms)
 
 def Examples(request):
@@ -313,12 +323,12 @@ def showname(request):
         print(e)
     return HttpResponse(name)
 
-def SetTimeframe(request,id):
+def SetTimeframe(request,page,id):
     if not request.user.is_authenticated:
         return redirect('/accounts/login')
 
     request.session['p'] = id
-    return redirect('/todo')
+    return redirect('/' + page)
 
 def EditTimeframe(request,id):
     if not request.user.is_authenticated:
