@@ -17,7 +17,6 @@
     border-radius: 3px;
     border: 1px solid #999;
 }
-
 .standard-footer {
     padding-left: 20px;
     height:50px;
@@ -32,7 +31,71 @@
     bottom: 0pt;
     left: 0pt;
 }
-.tasks {
+.tasks_PROG {
+  display: block;
+  position: relative;
+  font-size: 12px;
+  border-radius: 3px;
+  border: 1px solid #999;
+  padding: 10px 12px;
+  margin-bottom: 14px;
+  margin-left: 5px;
+  margin-right: 5px;
+  overflow: hidden;
+  background-color: #FFFFCC;
+  color: #222;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+  transition: box-shadow 0.5s ease-in-out;
+}
+.tasks_CNCL {
+  display: block;
+  position: relative;
+  font-size: 12px;
+  border-radius: 3px;
+  border: 1px solid #999;
+  padding: 10px 12px;
+  margin-bottom: 14px;
+  margin-left: 5px;
+  margin-right: 5px;
+  overflow: hidden;
+  background-color: #777;
+  color: #222;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+  transition: box-shadow 0.5s ease-in-out;
+}
+.tasks_COMP {
+  display: block;
+  position: relative;
+  font-size: 12px;
+  border-radius: 3px;
+  border: 1px solid #999;
+  padding: 10px 12px;
+  margin-bottom: 14px;
+  margin-left: 5px;
+  margin-right: 5px;
+  overflow: hidden;
+  background-color: #070;
+  color: #BBB;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+  transition: box-shadow 0.5s ease-in-out;
+}
+.tasks_HOLD {
+  display: block;
+  position: relative;
+  font-size: 12px;
+  border-radius: 3px;
+  border: 1px solid #999;
+  padding: 10px 12px;
+  margin-bottom: 14px;
+  margin-left: 5px;
+  margin-right: 5px;
+  overflow: hidden;
+  background-color: #006;
+  color: #DEDE;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+  transition: box-shadow 0.5s ease-in-out;
+}
+.tasks_NEW {
   display: block;
   position: relative;
   font-size: 12px;

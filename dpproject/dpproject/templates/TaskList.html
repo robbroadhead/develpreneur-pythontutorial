@@ -30,7 +30,7 @@
     </select> | Tasks Count: {{ count }}<br/>
 {% if tasks %}
     {% for task in tasks %}
-        <div class="tasks" id="task_{{ task.id }}">
+        <div class="tasks_{{ task.status.shortname }}" id="task_{{ task.id }}">
             <div class="row">
                 <div class="col-md-3" onclick="goPage('task/{{ task.id }}')">
                 TimeFrame :{{ task.timeframe }}

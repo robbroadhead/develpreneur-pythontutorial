@@ -209,7 +209,9 @@ def ListTasks(request):
     tasks = Task.objects.filter(Q(timeframe=current)).order_by('duedate','name')
     count = len(tasks)
     title = "All Tasks"
-    msg = request.session['msg']
+    msg = None
+    if 'msg' in request.session and request.session['msg'] != None:
+        msg = request.session['msg']
     opts = Timeframe.objects.all()
 
     parms = {"title": title, "tasks": tasks, "msg": msg, "opts": opts, "pid": pid, "page": "tasks", "count":count}
